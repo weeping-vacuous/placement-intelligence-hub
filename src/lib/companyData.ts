@@ -58,8 +58,9 @@ export const asString = (v: unknown): string => {
   if (typeof v === "object") return JSON.stringify(v);
   return String(v).trim();
 };
-export const asRecord = (v: unknown): Record<string, unknown> =>
-  v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : {};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const asRecord = (v: unknown): any =>
+  v && typeof v === "object" && !Array.isArray(v) ? v : {};
 
 export const isNullish = (v: unknown) =>
   ["", "na", "n/a", "none", "-", "null", "undefined"].includes(asString(v).toLowerCase());

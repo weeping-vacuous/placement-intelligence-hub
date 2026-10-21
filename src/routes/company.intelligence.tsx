@@ -55,7 +55,7 @@ function CompanyIntelligence() {
       (entries) => {
         if (isScrollingRef.current) return;
         const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (vis[0]) setActive(Number((vis[0].target as HTMLElement).dataset.idx));
+        if (vis[0]) setActive(Number((vis[0].target as HTMLElement).dataset["idx"]));
       },
       { rootMargin: "-130px 0px -60% 0px" },
     );
