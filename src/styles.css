@@ -183,6 +183,8 @@
 
   body {
     background-color: var(--color-background);
+    background-image: linear-gradient(180deg, var(--page-gradient-from), var(--page-gradient-to));
+    background-attachment: fixed;
     min-height: 100vh;
     color: var(--color-foreground);
     font-family: var(--font-body);
