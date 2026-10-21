@@ -15,6 +15,8 @@ export const Route = createFileRoute("/company/intelligence")({
       { name: "description", content: "22-section research profile of a recruiting company." },
       { property: "og:title", content: `Company Intelligence · ${COLLEGE_SHORT}` },
       { property: "og:description", content: "Deep company research for campus placement preparation." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: CompanyIntelligence,

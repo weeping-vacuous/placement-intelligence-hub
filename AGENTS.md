@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Manage appearance through the shared ThemeProvider and semantic CSS tokens; render its toggle on both the company directory and company layout so preference follows navigation.
