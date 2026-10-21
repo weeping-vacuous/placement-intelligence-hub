@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { getCompanyById } from "@/lib/companyData";
 
 export const STORAGE_KEY = "selected-company";
 export interface SelectedCompany { companyId: number; companyName: string; logoUrl: string }
