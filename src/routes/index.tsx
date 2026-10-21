@@ -7,7 +7,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { useCompany } from "@/context/CompanyContext";
-import { COLLEGE_NAME, COLLEGE_SHORT, COMPANY_TYPES, getAllCompanySummaries, type CompanySummary, type CompanyType } from "@/lib/companyData";
+import { useCompanies } from "@/lib/companyApi";
+import { COLLEGE_NAME, COLLEGE_SHORT, COMPANY_TYPES, type CompanySummary, type CompanyType } from "@/lib/companyData";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,10 +32,8 @@ function Index() {
   const [query, setQuery] = useState("");
   const [debounced, setDebounced] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
-  const [loading, setLoading] = useState(true);
-  const companies = useMemo(() => getAllCompanySummaries(), []);
+  const { data: companies = [], isLoading, isError, refetch } = useCompanies();
 
-  useEffect(() => { setLoading(false); }, []);
   useEffect(() => { const t = setTimeout(() => setDebounced(query), 200); return () => clearTimeout(t); }, [query]);
 
   const searched = useMemo(() => {
