@@ -102,9 +102,15 @@ function Index() {
           })}
         </div>
 
-        {loading ? (
+        {isLoading ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-56 rounded-xl" />)}
+          </div>
+        ) : isError ? (
+          <div className="rounded-xl border border-dashed border-border p-10 text-center">
+            <p className="font-heading font-semibold">Couldn’t load companies</p>
+            <p className="mt-1 text-sm text-muted-foreground">Check that VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in .env, then try again.</p>
+            <Button variant="outline" className="mt-4" onClick={() => refetch()}>Retry</Button>
           </div>
         ) : visible.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border p-10 text-center">
