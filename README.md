@@ -1,29 +1,12 @@
-# Welcome to your Lovable project
+# JSSATEN Placement Intelligence Hub
 
-This project was built with [Lovable](https://lovable.dev).
+Companies Research & Placement Analytics Portal for **JSS Academy of Technical Education and Technology** (short tag `JSSATEN`).
 
-## Build with Lovable
+- **Phase 1 is UI-only.** All data comes from `src/data/seedCompanies.ts` (one Accenture record) and `src/data/skillTopics.ts`. No database, no backend.
+- **Fully public.** There is no login, no auth, no protected routes.
+- **Routes:** `/` (company grid), `/company` → redirects to `/company/intelligence`, `/company/skills`.
+- **Phase 2** will swap the data source in `src/lib/companyData.ts` (`getAllCompanySummaries`, `getCompanyById`) to database rows. The normalizers already accept the raw `short_json` / `full_json` / `skill_levels` shapes, so it is a one-file change.
+- Optional env: `VITE_LOGO_DEV_PUBLISHABLE_KEY` for Logo.dev company logos (falls back to seed `logo_url`, then an initial letter).
+- CTC, stipend and selection ratio are never displayed.
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+Note: this project runs on TanStack Start + Tailwind v4 (the platform's fixed stack), so file-based routes replace React Router with identical URLs and behavior.
