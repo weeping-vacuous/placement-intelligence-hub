@@ -70,8 +70,8 @@ function Index() {
   const reset = () => { setQuery(""); setDebounced(""); setFilter("All"); };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-background">
+    <div className="min-h-screen">
+      <header className="border-b border-border">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
           <div className="flex items-center justify-between gap-3">
           <span className="inline-flex items-center rounded-full border border-border bg-secondary px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground">
