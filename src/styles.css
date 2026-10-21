@@ -82,6 +82,7 @@
 }
 
 :root {
+  --radius: 0.75rem;
   --page-gradient-from: oklch(0.9 0.1 150);
   --page-gradient-to: oklch(0.2 0.02 150);
   --background: #ffffff;
@@ -122,6 +123,8 @@
 
 .dark {
   color-scheme: dark;
+  --page-gradient-from: oklch(0.55 0.12 150);
+  --page-gradient-to: oklch(0 0 0);
   --background: oklch(0.16 0.005 260);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.215 0.006 260);
