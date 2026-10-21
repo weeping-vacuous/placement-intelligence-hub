@@ -45,7 +45,22 @@ function Index() {
     COMPANY_TYPES.forEach((t) => (m[t] = searched.filter((c) => c.companyType === t).length));
     return m;
   }, [searched]);
-  const visible = filter === "All" ? searched : searched.filter((c) => c.companyType === filter);
+  const visible = useMemo(
+    () => (filter === "All" ? searched : searched.filter((c) => c.companyType === filter))
+      .slice()
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })),
+    [searched, filter],
+  );
+  const groups = useMemo(() => {
+    const m = new Map<string, CompanySummary[]>();
+    for (const c of visible) {
+      const ch = c.name.trim().charAt(0).toUpperCase();
+      const key = /[A-Z]/.test(ch) ? ch : "#";
+      if (!m.has(key)) m.set(key, []);
+      m.get(key)!.push(c);
+    }
+    return [...m.entries()];
+  }, [visible]);
 
   const onSelect = useCallback((c: CompanySummary) => {
     selectCompany({ companyId: c.companyId, companyName: c.shortName, logoUrl: c.logoUrl });
@@ -119,8 +134,19 @@ function Index() {
             <Button variant="outline" className="mt-4" onClick={reset}>Reset filters</Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {visible.map((c) => <CompanyCard key={c.companyId} company={c} onSelect={onSelect} />)}
+          <div className="space-y-8">
+            {groups.map(([letter, list]) => (
+              <section key={letter} aria-label={`Companies starting with ${letter}`}>
+                <h2 className="mb-3 flex items-center gap-3 font-heading text-xl font-semibold text-foreground">
+                  {letter}
+                  <span className="h-px flex-1 bg-border" />
+                  <span className="text-xs font-normal text-muted-foreground">{list.length}</span>
+                </h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {list.map((c) => <CompanyCard key={c.companyId} company={c} onSelect={onSelect} />)}
+                </div>
+              </section>
+            ))}
           </div>
         )}
       </main>
