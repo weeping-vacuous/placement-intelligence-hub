@@ -82,7 +82,8 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --page-gradient-from: oklch(0.9 0.1 150);
+  --page-gradient-to: oklch(0.2 0.02 150);
   --background: #ffffff;
   --foreground: hsl(222 84% 5%);
   --card: #ffffff;
