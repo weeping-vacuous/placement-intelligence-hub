@@ -183,7 +183,7 @@
 
   body {
     background-color: var(--color-background);
-    background-image: radial-gradient(ellipse 120% 90% at top left, var(--page-gradient-from) 0%, var(--page-gradient-to) 70%);
+    background-image: radial-gradient(ellipse 240% 200% at top left, var(--page-gradient-from) 0%, var(--page-gradient-to) 100%);
     background-attachment: fixed;
     min-height: 100vh;
     color: var(--color-foreground);
