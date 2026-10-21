@@ -15,6 +15,7 @@ import { CompanyProvider } from "../context/CompanyContext";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { Toaster } from "../components/ui/sonner";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { ThemeProvider } from "../components/ThemeProvider";
 
 function NotFoundComponent() {
   return (
@@ -82,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "JSSATEN Placement Intelligence Hub" },
-      { name: "description", content: "Companies research & placement analytics portal for JSS Academy of Technical Education and Technology." },
+      { name: "description", content: "Companies research & placement analytics portal for JSS Academy of Technical Education." },
       { property: "og:title", content: "JSSATEN Placement Intelligence Hub" },
       { property: "og:description", content: "Your strategic edge for campus placements." },
       { property: "og:type", content: "website" },
@@ -108,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -127,10 +128,12 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <TooltipProvider>
+        <ThemeProvider>
         <Toaster />
         <CompanyProvider>
           <Outlet />
         </CompanyProvider>
+        </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

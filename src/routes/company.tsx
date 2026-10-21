@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useCompany } from "@/context/CompanyContext";
+import { ThemeToggle } from "@/components/ThemeProvider";
 
 export const Route = createFileRoute("/company")({ component: AppLayout });
 
@@ -28,6 +29,7 @@ function AppLayout() {
               <ChevronRight className="h-3.5 w-3.5" />
               <span className="truncate font-medium text-foreground">{page}</span>
             </nav>
+            <div className="ml-auto"><ThemeToggle /></div>
           </header>
           <main className="min-w-0 flex-1">
             {ready && selected ? <Outlet /> : <div className="p-6 text-sm text-muted-foreground">Loading…</div>}

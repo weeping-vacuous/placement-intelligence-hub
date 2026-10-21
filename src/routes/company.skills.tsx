@@ -12,6 +12,8 @@ export const Route = createFileRoute("/company/skills")({
       { name: "description", content: "Required skills, Bloom levels and 10-level learning roadmaps for a recruiting company." },
       { property: "og:title", content: `Skill Intelligence · ${COLLEGE_SHORT}` },
       { property: "og:description", content: "Know exactly which skills to build, and how deep." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: SkillIntelligence,

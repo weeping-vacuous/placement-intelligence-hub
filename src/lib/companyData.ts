@@ -3,7 +3,7 @@
 import { SKILL_TOPICS } from "@/data/skillTopics";
 import { SEED_COMPANIES } from "@/data/seedCompanies";
 
-export const COLLEGE_NAME = "JSS Academy of Technical Education and Technology";
+export const COLLEGE_NAME = "JSS Academy of Technical Education";
 export const COLLEGE_SHORT = "JSSATEN";
 
 export type CompanyType = "Super Dream" | "Dream" | "Standard" | "Regular";
