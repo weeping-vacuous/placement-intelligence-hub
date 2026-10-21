@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { titleCaseFromCode, type CompanyProfile } from "@/lib/companyData";
 
-export interface IntelField { key: string; label: string; value?: string }
+export interface IntelField { key: string; label: string; value?: string | undefined }
 export interface IntelSection { id: string; title: string; icon: LucideIcon; fields: IntelField[] }
 
 const S: [string, LucideIcon, string[]][] = [

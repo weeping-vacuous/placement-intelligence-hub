@@ -6,7 +6,7 @@ function domainOf(url?: string) {
 }
 
 export function CompanyLogo({ name, logoUrl, websiteUrl, className }: { name: string; logoUrl?: string; websiteUrl?: string; className?: string }) {
-  const key = import.meta.env.VITE_LOGO_DEV_PUBLISHABLE_KEY as string | undefined;
+  const key = import.meta.env["VITE_LOGO_DEV_PUBLISHABLE_KEY"] as string | undefined;
   const domain = domainOf(websiteUrl);
   const sources = [key && domain ? `https://img.logo.dev/${domain}?token=${key}&size=128` : "", logoUrl ?? ""].filter(Boolean);
   const [idx, setIdx] = useState(0);

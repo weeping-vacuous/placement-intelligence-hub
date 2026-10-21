@@ -21,7 +21,7 @@ export function renderValue(raw: string | undefined, key = "") {
     return <a href={`mailto:${v}`} className="text-dream hover:underline">{v}</a>;
   const rating = v.match(/^(\d(\.\d)?)\s*\/\s*5$/);
   if (rating) {
-    const n = parseFloat(rating[1]);
+    const n = parseFloat(rating[1] ?? "0");
     return (
       <span className="inline-flex items-center gap-1.5">
         {Array.from({ length: 5 }).map((_, i) => (
