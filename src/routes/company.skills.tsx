@@ -3,7 +3,10 @@ import { memo, useMemo, useState } from "react";
 import { ChevronDown, Lock, CheckCircle2, Circle } from "lucide-react";
 import { CompanyLogo } from "@/components/CompanyLogo";
 import { useCompany } from "@/context/CompanyContext";
-import { COLLEGE_SHORT, getCompanyById, normalizeCompanySummary, normalizeDashboardSkills, type Bloom, type Criticality, type DashboardSkill } from "@/lib/companyData";
+import { useCompanyProfile, useCompanySkills } from "@/lib/companyApi";
+import { COLLEGE_SHORT, type Bloom, type Criticality, type DashboardSkill } from "@/lib/companyData";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/company/skills")({
   head: () => ({
@@ -77,10 +80,34 @@ const SkillCard = memo(function SkillCard({ skill }: { skill: DashboardSkill }) 
 
 function SkillIntelligence() {
   const { selected } = useCompany();
-  const company = selected ? getCompanyById(selected.companyId) : undefined;
-  const skills = useMemo(() => (company ? normalizeDashboardSkills(company.skill_levels) : []), [company]);
-  if (!company) return null;
-  const summary = normalizeCompanySummary(company.short_json, company.company_id);
+  const companyId = selected?.companyId ?? null;
+  const profileQuery = useCompanyProfile(companyId);
+  const skillsQuery = useCompanySkills(companyId);
+
+  if (!selected) return null;
+  if (profileQuery.isLoading || skillsQuery.isLoading) {
+    return (
+      <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
+        <Skeleton className="h-16 rounded-xl" />
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+          {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-28 rounded-xl" />)}
+        </div>
+      </div>
+    );
+  }
+  if (profileQuery.isError || skillsQuery.isError || !profileQuery.data) {
+    return (
+      <div className="mx-auto max-w-5xl p-4 sm:p-6">
+        <div className="rounded-xl border border-dashed border-border p-10 text-center">
+          <p className="font-heading font-semibold">Couldn’t load skill intelligence</p>
+          <p className="mt-1 text-sm text-muted-foreground">Check your Supabase configuration in .env, then try again.</p>
+          <Button variant="outline" className="mt-4" onClick={() => { profileQuery.refetch(); skillsQuery.refetch(); }}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
+  const summary = profileQuery.data.summary;
+  const skills = skillsQuery.data ?? [];
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
