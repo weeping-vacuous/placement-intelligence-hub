@@ -116,13 +116,19 @@ export function normalizeCompanyProfile(full_json: unknown, short_json: unknown)
   return out as CompanyProfile;
 }
 
-export function normalizeDashboardSkills(skillLevels: unknown[]): DashboardSkill[] {
+// 10-level topic ladders keyed by skill_set_id. Phase 2 passes ladders built
+// from the skill_set_topics table; the seed path falls back to SKILL_TOPICS.
+export type SkillTopicsMap = Map<number, { level: number; topic: string }[]>;
+
+export function normalizeDashboardSkills(skillLevels: unknown[], topicsById?: SkillTopicsMap): DashboardSkill[] {
   return (skillLevels ?? [])
     .map((raw) => {
       const r = asRecord(raw);
       const id = Number(r.skill_set_id) || 0;
       const score = Math.max(0, Math.min(10, Number(r.required_level) || 0));
-      const topics = (SKILL_TOPICS[id] ?? []).map((topic, i) => ({ level: i + 1, topic }));
+      const topics = topicsById
+        ? (topicsById.get(id) ?? [])
+        : (SKILL_TOPICS[id] ?? []).map((topic, i) => ({ level: i + 1, topic }));
       return {
         id,
         name: asString(r.skill_set_name),

@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { CompanyLogo } from "@/components/CompanyLogo";
 import { renderValue } from "@/components/ValueRenderer";
 import { useCompany } from "@/context/CompanyContext";
+import { useCompanyProfile } from "@/lib/companyApi";
 import { buildIntelligenceSections, type IntelSection } from "@/data/intelligenceData";
-import { COLLEGE_SHORT, getCompanyById, isNullish, normalizeCompanyProfile } from "@/lib/companyData";
+import { COLLEGE_SHORT, isNullish } from "@/lib/companyData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/company/intelligence")({
   head: () => ({
@@ -45,8 +47,8 @@ const SectionCard = memo(function SectionCard({ section, index }: { section: Int
 
 function CompanyIntelligence() {
   const { selected } = useCompany();
-  const company = selected ? getCompanyById(selected.companyId) : undefined;
-  const profile = useMemo(() => (company ? normalizeCompanyProfile(company.full_json, company.short_json) : undefined), [company]);
+  const { data, isLoading, isError, refetch } = useCompanyProfile(selected?.companyId ?? null);
+  const profile = data?.profile;
   const sections = useMemo(() => buildIntelligenceSections(profile), [profile]);
   const [active, setActive] = useState(0);
   const isScrollingRef = useRef(false);
@@ -76,7 +78,26 @@ function CompanyIntelligence() {
     window.setTimeout(() => { isScrollingRef.current = false; }, 800);
   }, []);
 
-  if (!company || !profile) return null;
+  if (!selected) return null;
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-5xl space-y-4 p-4 sm:p-6">
+        <Skeleton className="h-16 rounded-xl" />
+        {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 rounded-xl" />)}
+      </div>
+    );
+  }
+  if (isError || !profile) {
+    return (
+      <div className="mx-auto max-w-5xl p-4 sm:p-6">
+        <div className="rounded-xl border border-dashed border-border p-10 text-center">
+          <p className="font-heading font-semibold">Couldn’t load this company</p>
+          <p className="mt-1 text-sm text-muted-foreground">Check your Supabase configuration in .env, then try again.</p>
+          <Button variant="outline" className="mt-4" onClick={() => refetch()}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { getCompanyById } from "@/lib/companyData";
 
 export const STORAGE_KEY = "selected-company";
 export interface SelectedCompany { companyId: number; companyName: string; logoUrl: string }
@@ -17,7 +16,9 @@ export function readStoredCompany(): SelectedCompany | null {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as SelectedCompany;
-    return getCompanyById(Number(parsed.companyId)) ? parsed : null;
+    // Phase 2: companies come from the database, so validate shape only —
+    // the detail pages surface a "not found" state if the id no longer exists.
+    return Number.isFinite(Number(parsed?.companyId)) && typeof parsed?.companyName === "string" ? parsed : null;
   } catch {
     return null;
   }

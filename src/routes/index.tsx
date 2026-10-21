@@ -7,7 +7,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { useCompany } from "@/context/CompanyContext";
-import { COLLEGE_NAME, COLLEGE_SHORT, COMPANY_TYPES, getAllCompanySummaries, type CompanySummary, type CompanyType } from "@/lib/companyData";
+import { useCompanies } from "@/lib/companyApi";
+import { COLLEGE_NAME, COLLEGE_SHORT, COMPANY_TYPES, type CompanySummary, type CompanyType } from "@/lib/companyData";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,10 +32,8 @@ function Index() {
   const [query, setQuery] = useState("");
   const [debounced, setDebounced] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
-  const [loading, setLoading] = useState(true);
-  const companies = useMemo(() => getAllCompanySummaries(), []);
+  const { data: companies = [], isLoading, isError, refetch } = useCompanies();
 
-  useEffect(() => { setLoading(false); }, []);
   useEffect(() => { const t = setTimeout(() => setDebounced(query), 200); return () => clearTimeout(t); }, [query]);
 
   const searched = useMemo(() => {
@@ -103,9 +102,15 @@ function Index() {
           })}
         </div>
 
-        {loading ? (
+        {isLoading ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-56 rounded-xl" />)}
+          </div>
+        ) : isError ? (
+          <div className="rounded-xl border border-dashed border-border p-10 text-center">
+            <p className="font-heading font-semibold">Couldn’t load companies</p>
+            <p className="mt-1 text-sm text-muted-foreground">Check that VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in .env, then try again.</p>
+            <Button variant="outline" className="mt-4" onClick={() => refetch()}>Retry</Button>
           </div>
         ) : visible.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border p-10 text-center">
