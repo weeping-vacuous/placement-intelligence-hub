@@ -27,9 +27,9 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((it) => (
-                <SidebarMenuButton key={it.url} asChild isActive={path === it.url} tooltip={it.title} className="data-[active=true]:bg-nav-active-bg data-[active=true]:text-nav-active">
+                <SidebarMenuItem key={it.url}><SidebarMenuButton asChild isActive={path === it.url} tooltip={it.title} className="data-[active=true]:bg-nav-active-bg data-[active=true]:text-nav-active">
                   <Link to={it.url}><it.icon className="h-4 w-4" /><span>{it.title}</span></Link>
-                </SidebarMenuButton>
+                </SidebarMenuButton></SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
