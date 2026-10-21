@@ -6,8 +6,8 @@ let client: SupabaseClient | null = null;
 
 export function getSupabase(): SupabaseClient {
   if (client) return client;
-  const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-  const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+  const url = import.meta.env["VITE_SUPABASE_URL"] as string | undefined;
+  const key = import.meta.env["VITE_SUPABASE_ANON_KEY"] as string | undefined;
   if (!url || !key) {
     const msg =
       "Supabase is not configured: paste VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY into .env (see .env.example), then restart the dev server.";
