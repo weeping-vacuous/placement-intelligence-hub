@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { memo, useMemo, useState } from "react";
+import { memo, useState } from "react";
 import { ChevronDown, Lock, CheckCircle2, Circle } from "lucide-react";
 import { CompanyLogo } from "@/components/CompanyLogo";
 import { useCompany } from "@/context/CompanyContext";

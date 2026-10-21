@@ -14,6 +14,11 @@ describe("company data", () => {
     expect(s[0]!.score).toBe(8);
     s.forEach((k) => expect(k.topics).toHaveLength(10));
   });
+  it("uses database topic ladders when provided", () => {
+    const topics = new Map([[1, [{ level: 2, topic: "DB topic B" }, { level: 1, topic: "DB topic A" }]]]);
+    const s = normalizeDashboardSkills([{ skill_set_id: 1, skill_set_name: "DSA", required_level: 8, required_proficiency: "Expert" }], topics);
+    expect(s[0]!.topics.map((t) => t.topic)).toEqual(["DB topic B", "DB topic A"]);
+  });
   it("maps bloom and criticality", () => {
     expect(proficiencyToBloom(2)).toBe("CU");
     expect(proficiencyToBloom(8)).toBe("EV");
